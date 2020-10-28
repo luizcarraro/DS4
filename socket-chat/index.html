@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materdei Socket Chat!</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font: 13px Helvetica, Arial;
+    }
+    form {
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 90%;
+      margin-right: 0.5%;
+    }
+    form button {
+      width: 9%;
+      background: reg(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    #messages li {
+      padding: 5px 10px;
+    }
+    #messages li:nth-child(odd) {
+      background: #eee;
+    }
+  </style>
+</head>
+<body>
+  <ul id="messages">
+    <!-- Aqui serao adicionadas mensagens -->
+    <li>Mensagem 1</li>
+    <li>Mensagem 2</li>
+    <li>Mensagem 3</li>
+    <li>Mensagem 4</li>
+    <li>Mensagem 5</li>
+  </ul>
+
+  <form action="">
+    <input type="text" id="new-message" autocomplete="off" />
+    <button>Enviar</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    $(function() {
+      var socket = io();
+
+      $('form').submit(function(e) {
+        e.preventDefault(); // previne recarreamento da página
+        console.log('Form enviado');
+
+        var message = $('#new-message').val();
+        console.log('Vai enviar a mensagem: ', message);
+        
+        socket.emit('chat message', message);
+        return false;
+      });
+    });
+  </script>
+
+</body>
+</html>
