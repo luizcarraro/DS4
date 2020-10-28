@@ -8,12 +8,19 @@ const io = require('socket.io')(http);
 io.on('connection', (socket) => {
   console.log('+ Um usuário se conectou. :)');
 
+  /** 
+   * Envia mensagem para todos menos o socket atual
+   */
+  socket.broadcast.emit('Um usuário se conectou.');
+
   socket.on('disconnect', () => {
     console.log('- Um usuário se desconectou. :(');
   });
 
   socket.on('chat message', (payload) => {
     console.log('message: ', payload);
+
+    io.emit('chat message', payload);
   });
 });
 

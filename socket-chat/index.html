@@ -76,7 +76,14 @@
         console.log('Vai enviar a mensagem: ', message);
         
         socket.emit('chat message', message);
+        $('#new-message').val('');
         return false;
+      });
+
+      socket.on('chat message', function(payload) {
+        console.log('Chegou nova mensagem: ', payload);
+        $('#messages')
+          .append($('<li>').text(payload));
       });
     });
   </script>
