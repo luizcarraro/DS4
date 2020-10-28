@@ -66,6 +66,7 @@
 
   <script>
     $(function() {
+      var apelido = prompt('Digite um apelido', 'Charmander');
       var socket = io();
 
       $('form').submit(function(e) {
@@ -75,15 +76,19 @@
         var message = $('#new-message').val();
         console.log('Vai enviar a mensagem: ', message);
         
-        socket.emit('chat message', message);
+        socket.emit('chat message', {
+          apelido: apelido,
+          message: message
+        });
         $('#new-message').val('');
         return false;
       });
 
       socket.on('chat message', function(payload) {
         console.log('Chegou nova mensagem: ', payload);
+        var line = payload.apelido + ': ' + payload.message;
         $('#messages')
-          .append($('<li>').text(payload));
+          .append($('<li>').text(line));
       });
     });
   </script>
